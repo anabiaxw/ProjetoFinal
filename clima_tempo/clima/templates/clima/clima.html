@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clima-Tempo GRACE</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #cbf2f8;
+        }
+        .container {
+            width: 60%;
+            margin: 50px auto;
+            background-color: #b3f4f6;
+            padding: 20px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .form-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            padding: 8px;
+            font-size: 16px;
+            width: 60%;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        input[type="submit"] {
+            padding: 8px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .clima-info {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .erro {
+            color: red;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Consulta de Clima</h1>
+        <div class="form-container">
+            <form method="POST">
+                {% csrf_token %}
+                <input type="text" name="cidade" placeholder="Digite o nome da cidade" required>
+                <input type="submit" value="Consultar">
+            </form>
+        </div>
+
+        {% if erro %}
+            <div class="erro">
+                <p>{{ erro }}</p>
+            </div>
+        {% elif clima %}
+            <div class="clima-info">
+                <p><strong>Cidade:</strong> {{ clima.cidade }}</p>
+                <p><strong>Temperatura:</strong> {{ clima.temperatura }}°C</p>
+                <p><strong>Descrição:</strong> {{ clima.descricao }}</p>
+                <p><strong>Umidade:</strong> {{ clima.humidade }}%</p>
+                <p><strong>Vento:</strong> {{ clima.vento }} km/h</p>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
